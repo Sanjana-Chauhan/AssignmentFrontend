@@ -79,7 +79,7 @@ export default function UserForm() {
         <GlassPanel key={i} index={i} />
       ))}
 
-      <div className="relative bg-whites backdrop-blur-lg p-8 rounded-xl shadow-xl w-96">
+      <div className="relative bg-white backdrop-blur-lg p-8 rounded-xl shadow-xl w-96">
         <h2 className="text-xl font-semibold mb-4 text-center">User Form</h2>
         <form onSubmit={handleSubmit} className="space-y-3">
           <input
