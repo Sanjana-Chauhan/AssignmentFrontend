@@ -14,7 +14,7 @@ const GlassPanel = ({ index }) => {
     
     const interval = setInterval(() => {
       setPosition({ x: Math.random() * 100, y: Math.random() * 100 });
-    }, 5000);
+    }, 10000);
 
     return () => clearInterval(interval);
   }, []);
@@ -26,7 +26,7 @@ const GlassPanel = ({ index }) => {
       className="absolute w-40 h-40 bg-white/10 backdrop-blur-lg rounded-lg shadow-lg"
       style={{ top: `${position.y}%`, left: `${position.x}%` }}
       animate={{ x: position.x, y: position.y }}
-      transition={{ duration: 5, ease: 'easeInOut' }}
+      transition={{ duration: 10, ease: 'easeInOut' }}
     />
   );
 };
@@ -34,7 +34,7 @@ const GlassPanel = ({ index }) => {
 export default function UserForm() {
   const [formData, setFormData] = useState({ name: "", interest: "", category: "" });
   const [response, setResponse] = useState(null);
-
+  const [loading, setLoading] = useState(false);
   //to prevent hydration error
   const [mounted, setMounted] = useState(false);
 
@@ -55,15 +55,18 @@ export default function UserForm() {
     e.preventDefault();
     try {
       const url = `${API_BASE_URL}/submit-form`;
+      setLoading(true);
       const res = await fetch(url, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(formData),
       });
       const data = await res.json();
+      setLoading(false);
       setResponse(data);
       setFormData({ name: "", interest: "", category: "" });
     } catch (error) {
+      setLoading(false);
       console.error("Error:", error);
     }
   };
@@ -113,7 +116,7 @@ export default function UserForm() {
             ))}
           </div>
           <button type="submit" className="w-full p-2 bg-purple-500 rounded">
-            Submit
+            {loading ? "Submitting..." : "Submit"}
           </button>
         </form>
 
